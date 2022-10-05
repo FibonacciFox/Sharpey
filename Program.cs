@@ -19,11 +19,11 @@ Console.WriteLine($"Полное имя типа: {myType.FullName}");
 Console.WriteLine($"Пространство имен типа: {myType.Namespace}");
 Console.WriteLine("--------------------------------------"); 
 
-foreach (PropertyInfo prop in myType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static))
+foreach (PropertyInfo prop in myType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
 {
     if (prop.MemberType == MemberTypes.Property)
     {
-        Console.WriteLine($"[Унаследовано от:{prop.DeclaringType}] [Значение типа:{prop.MemberType}] Тип: {prop.PropertyType} [Имя свойства:{prop.Name}]");
+        Console.WriteLine($"Унаследовано от:{prop.DeclaringType} [Значение типа:{prop.MemberType} Тип: {prop.PropertyType} Имя свойства:{prop.Name}");
     }
     
 }
