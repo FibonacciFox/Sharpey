@@ -2,14 +2,11 @@
 
 using System.Reflection;
 using Apf.Controls;
-
+using Avalonia.Controls;
 
 //Assembly assembly = Assembly.Load("Avalonia.Controls");
 //Type myType = assembly.GetType("Avalonia.Controls.Window");
-
-Type myType = typeof(UxButton);
-
-
+Type myType = typeof(UxWindow);
 
 
 Console.WriteLine($"Является ли тип классом: {myType.IsClass}");
@@ -23,10 +20,15 @@ foreach (PropertyInfo prop in myType.GetProperties(BindingFlags.Instance | Bindi
 {
     if (prop.MemberType == MemberTypes.Property)
     {
-        Console.WriteLine($"Унаследовано от:{prop.DeclaringType} [Значение типа:{prop.MemberType} Тип: {prop.PropertyType} Имя свойства:{prop.Name}");
+        Console.WriteLine($"{prop.DeclaringType} {prop.MemberType} {prop.PropertyType} {prop.Name}");
     }
     
 }
 
+namespace Apf.Controls
+{
+    class UxWindow : Window
+    {
 
-
+    }
+}

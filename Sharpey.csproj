@@ -8,15 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="sdk\Apf" />
+      <Folder Include="sdk\Avalonia" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="0.10.18" />
         <PackageReference Include="Peachpie.Runtime" Version="1.0.24" />
-      <Reference Include="Apf">
-        <HintPath>..\..\PhpAppn04.09\Apf\bin\Release\net6.0\Apf.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>
