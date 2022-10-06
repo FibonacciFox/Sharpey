@@ -1,13 +1,16 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Reflection;
-using Apf.Controls;
 using Avalonia.Controls;
+using Pchp.Core.Reflection;
+using Sharpey;
+using Sharpey.Primitives;
+
 
 //Assembly assembly = Assembly.Load("Avalonia.Controls");
 //Type myType = assembly.GetType("Avalonia.Controls.Window");
-Type myType = typeof(UxWindow);
 
+Type myType = typeof(Button);
 
 Console.WriteLine($"Является ли тип классом: {myType.IsClass}");
 Console.WriteLine($"Имя Класса: {myType.Name}"); 
@@ -20,15 +23,12 @@ foreach (PropertyInfo prop in myType.GetProperties(BindingFlags.Instance | Bindi
 {
     if (prop.MemberType == MemberTypes.Property)
     {
-        Console.WriteLine($"{prop.DeclaringType} {prop.MemberType} {prop.PropertyType} {prop.Name}");
+        var type = prop.PropertyType.ToString();
+       
+        Console.WriteLine($"{prop.DeclaringType} {prop.IsPhpPublic()} Тип: {PropertyType.GetPhpType(type)} ${prop.Name} CanRead:{prop.CanRead} CanWrite:{prop.CanWrite}");
     }
     
 }
 
-namespace Apf.Controls
-{
-    class UxWindow : Window
-    {
 
-    }
-}
+
