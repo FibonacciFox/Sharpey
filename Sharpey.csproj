@@ -16,4 +16,10 @@
         <PackageReference Include="Peachpie.Runtime" Version="1.0.24" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Apf">
+        <HintPath>..\..\AvalonPhpStudio\Apf\bin\Debug\net6.0\Apf.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
