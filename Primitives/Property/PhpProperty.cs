@@ -1,8 +1,6 @@
 ﻿namespace Sharpey.Primitives.Property;
 
-
-
-public struct Property
+public struct PhpProperty
 {
     public string Name;
     public string Type;
@@ -16,7 +14,7 @@ public struct Property
 
     public string[]? PhpDock;
 
-    public Property(string name, string type, bool isPublic , string declaringType, bool canRead, bool canWrite, string[]? phpDock  = null)
+    public PhpProperty(string name, string type, bool isPublic , string declaringType, bool canRead, bool canWrite, string[]? phpDock  = null)
     {
         Name = name;
         Type = type;
