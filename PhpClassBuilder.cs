@@ -1,4 +1,6 @@
 ﻿using Sharpey.Primitives;
+using Sharpey.Primitives.Event;
+using Sharpey.Primitives.Field;
 using Sharpey.Primitives.Property;
 
 namespace Sharpey;
@@ -23,6 +25,13 @@ public class PhpClassBuilder
         
         properyClass.Add("");
         properyClass.Add("/**");
+        
+        
+        foreach (PhpField field in _phpClass.Fields)
+        {
+            properyClass.Add($" * @property {field.Type} ${field.Name} [description] ");
+        }
+        
         foreach (PhpProperty property in _phpClass.Properties)
         {
             
@@ -46,6 +55,12 @@ public class PhpClassBuilder
         properyClass.Add(" */");
         
         properyClass.Add($"class {_phpClass.Name} " + "{");
+        properyClass.Add("");
+        foreach (PhpEvent eEvent in _phpClass.Events)
+        {
+            properyClass.Add("");
+            properyClass.Add($" public static {eEvent.Type} ${eEvent.Name}Event;");
+        }
         properyClass.Add("");
         properyClass.Add("}");
         

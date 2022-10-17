@@ -1,12 +1,12 @@
-﻿namespace Sharpey.Avascript;
+﻿namespace Sharpey;
 
 public class Person
 {
 
     public static readonly string Gorod = "GOROD";
-    public string _name;
+    private string _name;
 
-    private const string Gorod123123 = "GOROD";
+    public const string GOROD = "GOROD";
     
     public int Age { get; }
     public string Sex { get; set; }

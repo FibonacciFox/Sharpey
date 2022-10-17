@@ -2,9 +2,9 @@
 
 using System.Reflection;
 using Apf.Controls;
+using Avalonia.Controls;
 using Pchp.Core.Reflection;
 using Sharpey;
-using Sharpey.Avascript;
 using Sharpey.Primitives;
 using Sharpey.Primitives.Property;
 
@@ -14,8 +14,7 @@ using Sharpey.Primitives.Property;
 
 
 
-
-Type SharpObject = typeof(Person);
+Type SharpObject = typeof(UxWindow);
 
 
 
@@ -38,12 +37,6 @@ if (SharpObject.IsClass)
     
 }
 
-
-foreach (MemberInfo member in SharpObject.GetMembers(BindingFlags.DeclaredOnly
-                                                     | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static))
-{
-    Console.WriteLine($"{member.DeclaringType} {member.MemberType} {member.Name}");
-}
 
 
 

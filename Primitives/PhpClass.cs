@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using Pchp.Core.Reflection;
+using Sharpey.Primitives.Event;
+using Sharpey.Primitives.Field;
 using Sharpey.Primitives.Property;
 
 namespace Sharpey.Primitives;
@@ -40,6 +42,16 @@ public class PhpClass
     {
         get => _properties;
     }
+    
+    public List<PhpField> Fields
+    {
+        get => _fields;
+    }
+    
+    public List<PhpEvent> Events
+    {
+        get => _events;
+    }
 
     public string Constructor
     {
@@ -57,6 +69,26 @@ public class PhpClass
         _properties.RemoveAt(indexProperty);
     }
     
+    public void AddField(PhpField field)
+    {
+        _fields.Add(field);
+    }
+    
+    public void RemoveField(int indexField)
+    {
+        _fields.RemoveAt(indexField);
+    }
+    
+    public void AddEvent(PhpEvent eventPhp)
+    {
+        _events.Add(eventPhp);
+    }
+    
+    public void RemoveEvent(int indexEvent)
+    {
+        _events.RemoveAt(indexEvent);
+    }
+    
     
     private string _name;
     private string _phpFullName = null!;
@@ -65,7 +97,9 @@ public class PhpClass
     private Type _sharpObjectType;
     
     private readonly List<PhpProperty> _properties = new();
-    
+    private readonly List<PhpField> _fields = new();
+    private readonly List<PhpEvent> _events = new();
+
 
     public PhpClass(Type sharpObjectType)
     {
@@ -87,7 +121,7 @@ public class PhpClass
     /// </summary>
     public void SetPublicPropertiesSync()
     {
-        foreach (PropertyInfo prop in _sharpObjectType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        foreach (PropertyInfo prop in _sharpObjectType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static))
         {
             //if (prop.MemberType == MemberTypes.Property)
            // {
@@ -98,16 +132,54 @@ public class PhpClass
                 // }
         }
         SetPublicFieldSync();
+        SetPublicEventSync();
     }
     
     public void SetPublicFieldSync()
     {
-        foreach (FieldInfo prop in _sharpObjectType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static))
+        foreach (FieldInfo prop in _sharpObjectType.GetFields(BindingFlags.Instance | BindingFlags.Public))
         {
             var type = prop.FieldType.ToString();
             
-            var property = new PhpProperty(prop.Name, PropertyType.GetPhpType(type)!, prop.IsPhpPublic(), prop.DeclaringType!.ToString(), true, true );
-            AddProperty(property);
+            var property = new PhpField(prop.Name, PropertyType.GetPhpType(type)!, true, prop.DeclaringType!.ToString());
+            AddField(property);
+        }
+        
+        Console.WriteLine("Поля:");
+        foreach (FieldInfo field in _sharpObjectType.GetFields(
+                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static))
+        {
+            string modificator = "";
+ 
+            // получаем модификатор доступа
+            if (field.IsPublic)
+                modificator += "public ";
+            else if (field.IsPrivate)
+                modificator += "private ";
+            else if (field.IsAssembly)
+                modificator += "internal ";
+            else if (field.IsFamily)
+                modificator += "protected ";
+            else if (field.IsFamilyAndAssembly)
+                modificator += "private protected ";
+            else if (field.IsFamilyOrAssembly)
+                modificator += "protected internal ";
+ 
+            // если поле статическое
+            if (field.IsStatic) modificator += "static ";
+ 
+            Console.WriteLine($"{modificator}{field.FieldType.Name} {field.Name}");
+        } 
+    }
+
+    public void SetPublicEventSync()
+    {
+        foreach (EventInfo prop in _sharpObjectType.GetEvents(BindingFlags.Instance | BindingFlags.Public))
+        {
+            var type = prop.MemberType.ToString();
+            
+            var property = new PhpEvent(prop.Name, PropertyType.GetPhpType(type)!, true, prop.DeclaringType!.ToString());
+            AddEvent(property);
             
         }
     }
